@@ -12,28 +12,49 @@ class RoundTEst < Minitest::Test
    def test_it_exist
      card_1 = Card.new("3","Hearts")
      card_2 = Card.new("4", "Clubs")
-     deck = Deck.new([card_1, card_2])
-     round = Round.new(deck)
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
      assert_instance_of Round, round
    end
+
+   def test_it_has_acces_deck
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     assert_equal deck, round.deck
+   end
+
+   def test_it_have_guesses
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     assert_equal [], round.guesses
+   end
+
+   def test_it_current_card
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     assert_equal card_1, round.current_card
+   end
+
+   def test_it_record_guess
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     guess  = Guess.new("3 of Hearts",card_1)
+     assert_equal guess,round.record_guess({value:"3", suit:"Hearts"})
+   end  
 
 
 end
 
-# A Round will be the object that processes responses and records guesses.
-# The idea is that when we start a Round, the current card is the first in the deck.
-# As we make a guess on that card, the current card becomes the next card in the deck.
-#
-# card_1 = Card.new("3","Hearts")
-# card_2 = Card.new("4", "Clubs")
-# deck = Deck.new([card_1, card_2])
-# round = Round.new(deck)
-# round.deck
-# => #<Deck:0x007ffdf181b9c8 @cards=[...]>
-# round.guesses
-# => []
-# round.current_card
-# => #<Card:0x007ffdf1820a90 @value="3", @suit="Hearts">
+
+
 # round.record_guess({value: "3", suit: "Hearts"})
 # => #<Guess:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @value="3", @suit="Hearts">, @response="3 of Hearts">
 # round.guesses.count
