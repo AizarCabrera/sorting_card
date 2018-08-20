@@ -3,7 +3,8 @@ require 'pry'
 
 class Deck
 
-attr_reader :count, :cards
+attr_reader :count,
+            :cards
 
   def initialize(cards)
     @count = cards.count

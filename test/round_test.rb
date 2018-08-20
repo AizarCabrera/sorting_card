@@ -46,17 +46,30 @@ class RoundTEst < Minitest::Test
      card_2 = Card.new("4", "Clubs")
      deck   = Deck.new([card_1, card_2])
      round  = Round.new(deck)
+     #guess  = Guess.new("3 of Hearts",card_1)
+     # assert_instance_of Guess,round.record_guess({value:"3", suit:"Hearts"})
+     # assert_equal guess_string,round.guesses.response
      guess  = Guess.new("3 of Hearts",card_1)
      assert_equal guess,round.record_guess({value:"3", suit:"Hearts"})
-   end  
+
+   end
+
+   def test_it_guesses_count
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     guess  = Guess.new("3 of Hearts",card_1)
+     assert_equal 1, round.guesses.count
+   end
+
+
 
 
 end
 
 
 
-# round.record_guess({value: "3", suit: "Hearts"})
-# => #<Guess:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @value="3", @suit="Hearts">, @response="3 of Hearts">
 # round.guesses.count
 # => 1
 # round.guesses.first.feedback
