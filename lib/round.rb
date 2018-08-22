@@ -8,33 +8,44 @@ class Round
               :round,
               :guesses,
               :current_card,
-              :current_card_index
-:number_correct
-
+              :record_guess
+              :percent_correct
+              :number_correct_index
   def initialize(deck)
-    @deck    = deck
-    @guesses = []
-    @number_correct = 0
-    @current_card_index = 0
+    @deck               = deck
+    @guesses            = []
+    @number_correct_index = 0
   end
 
-   def current_card
-    @deck.cards.first
-   end
-
-  def record_guess(response)
-    # guess_string= "#{response[:value]} of #{response[:suit]}"
-    # @guesses = Guess.new(guess_string,current_card)
-    # if response[:value]==current_card.value && response[:suit]==current_card.suit
-    #   @number_correct += 1
-    # end
-    #   @current_card_index += 1
-    # @guesses
-  # binding.pry
-#   guess_string= "#{response[:value]} of #{response[:suit]}"
-#     guesses = Guess.new(guess_string,current_card)
-    @guesses << Guess.new(response,current_card)
+  def current_card
+    @deck.cards[@number_correct_index]
   end
+
+  def record_guess(response_hash)
+    response ="#{response_hash[:value]} of #{response_hash[:suit]}"
+     guess = Guess.new(response,current_card)
+     @guesses << guess
+     return guess
+      binding.pry
+  end
+
+  def number_correct
+
+     # number_correct_index = 0
+     @guesses.each do |guess|
+     @number_correct_index +=1 if guess == "Correct!"
+     end
+     @number_correct_index
+
+
+  end
+
+  def percent_correct
+# binding.pry
+     (number_correct.to_f/@guesses.count)*100
+
+  end
+
 
 
 end

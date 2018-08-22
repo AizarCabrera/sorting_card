@@ -46,13 +46,10 @@ class RoundTEst < Minitest::Test
      card_2 = Card.new("4", "Clubs")
      deck   = Deck.new([card_1, card_2])
      round  = Round.new(deck)
-     #guess  = Guess.new("3 of Hearts",card_1)
-     # assert_instance_of Guess,round.record_guess({value:"3", suit:"Hearts"})
-     # assert_equal guess_string,round.guesses.response
-     guess  = Guess.new("3 of Hearts",card_1)
-     assert_equal guess,round.record_guess({value:"3", suit:"Hearts"})
-
-   end
+     # binding.pry
+     assert_instance_of Guess, round.record_guess({value:"3", suit:"Hearts"})
+     assert_equal "3 of Hearts", round.guesses.last.response
+    end
 
    def test_it_guesses_count
      card_1 = Card.new("3","Hearts")
@@ -60,31 +57,49 @@ class RoundTEst < Minitest::Test
      deck   = Deck.new([card_1, card_2])
      round  = Round.new(deck)
      guess  = Guess.new("3 of Hearts",card_1)
+     round.record_guess({value:"3", suit:"Hearts"})
      assert_equal 1, round.guesses.count
    end
 
+   def test_it_can_guess_first_feedback
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     guess  = Guess.new("3 of Hearts",card_1)
+     round.record_guess({value:"3", suit:"Hearts"})
+     round.record_guess({value: "Jack", suit: "Diamonds"})
+     assert_equal "Correct!", round.guesses.first.feedback
+   end
 
+   def test_it_number_correct
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     guess  = Guess.new("3 of Hearts",card_1)
+     round.record_guess({value:"3", suit:"Hearts"})
+     assert_equal 1, round.number_correct
+   end
+
+   def test_it_number_correct
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     guess  = Guess.new("3 of Hearts",card_1)
+     assert_instance_of Card, round.current_card
+   end
+
+   def test_it_percent_correct
+     card_1 = Card.new("3","Hearts")
+     card_2 = Card.new("4", "Clubs")
+     deck   = Deck.new([card_1, card_2])
+     round  = Round.new(deck)
+     round.record_guess({value:"3", suit:"Hearts"})
+     round.record_guess({value: "Jack", suit: "Diamonds"})
+     assert_equal 50, round.percent_correct
+   end
 
 
 end
-
-
-
-# round.guesses.count
-# => 1
-# round.guesses.first.feedback
-# => "Correct!"
-# round.number_correct
-# => 1
-# round.current_card
-# => #<Card:0x007ffdf1820a90 @value="4", @suit="Clubs">
-# round.record_guess({value: "Jack", suit: "Diamonds"})
-# => #<Guess:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @value="4", @suit="Clubs">, @response="Jack of Diamonds">
-# round.guesses.count
-# => 2
-# round.guesses.last.feedback
-# => "Incorrect."
-# round.number_correct
-# => 1
-# round.percent_correct
-# => 50
