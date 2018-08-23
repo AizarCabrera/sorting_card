@@ -11,6 +11,7 @@ class Round
               :record_guess
               :percent_correct
               :number_correct_index
+
   def initialize(deck)
     @deck               = deck
     @guesses            = []
@@ -18,7 +19,7 @@ class Round
   end
 
   def current_card
-    @deck.cards[@number_correct_index]
+    @deck.cards.first
   end
 
   def record_guess(response_hash)
@@ -26,23 +27,25 @@ class Round
      guess = Guess.new(response,current_card)
      @guesses << guess
      return guess
-      binding.pry
+
   end
 
   def number_correct
 
-     # number_correct_index = 0
+     # binding.pry
      @guesses.each do |guess|
-     @number_correct_index +=1 if guess == "Correct!"
+     if guess.feedback == "Correct!"
+     @number_correct_index +=1
+     end
+
      end
      @number_correct_index
-
-
+# binding.pry
   end
 
   def percent_correct
-# binding.pry
-     (number_correct.to_f/@guesses.count)*100
+     # binding.pry
+     (number_correct.to_f/guesses.count)*100
 
   end
 
